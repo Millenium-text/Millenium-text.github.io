@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /*.php$
+Disallow: /*?*
+Disallow: /component/
+Disallow: /components/
+Crawl-delay: 20
+Sitemap: http://xn----7sbbcv4aqksnid.xn--p1ai/sitemap.xml
+Host: xn----7sbbcv4aqksnid.xn--p1ai

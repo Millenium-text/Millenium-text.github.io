@@ -1,0 +1,109 @@
+Fox = {};
+
+Fox.Strings = {
+	add: function (object)
+	{
+		jQuery.extend(this, object);
+		return this;
+	}
+};
+
+Fox.Options = {
+	// Fox.Options.add('key', {...});
+	add: function (key, data)
+	{
+		var o = {};
+		o[key] = data;
+		jQuery.extend(this, o);
+		return this;
+	},
+
+	// Return by copy: Fox.Options.get('key');
+	// Return by reference: Fox.Options['key'];
+	get: function (key)
+	{
+		return jQuery.extend({}, this[key]);
+	}
+};
+
+
+(function ()
+{
+	Fox.Strings.add(
+		{
+			JCANCEL: "Отмена",
+			COM_FOXCONTACT_BROWSE_FILES: "Обзор файлов",
+			COM_FOXCONTACT_FAILED: "Ошибка",
+			COM_FOXCONTACT_SUCCESS: "Успешно",
+			COM_FOXCONTACT_NO_RESULTS_MATCH: "Нет подходящих результатов",
+			COM_FOXCONTACT_MULTIPLE_JQUERY: "Fox Contact обнаружил множественные включения библиотеки jQuery на вашем сайте. Пожалуйста, оставьте только одно включение.",
+			COM_FOXCONTACT_READ_MORE: "Подробнее...",
+			COM_FOXCONTACT_REMOVE_ALT: "Удалить",
+			JURI_ROOT: ""
+		}
+	);
+
+	Date.monthNames = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+	Date.dayNames = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
+	Date.monthNumbers = {
+		"января": 0,
+		"февраля": 1,
+		"марта": 2,
+		"апреля": 3,
+		"мая": 4,
+		"июня": 5,
+		"июля": 6,
+		"августа": 7,
+		"сентября": 8,
+		"октября": 9,
+		"ноября": 10,
+		"декабря": 11
+	};
+
+	// Calendar default options
+	Fox.Options.add('calendar', {
+		dayOfWeekStart: JSON.parse("1"),
+		lang: 'dynamic',
+		i18n: {
+			dynamic: {
+				months: Date.monthNames,
+				dayOfWeek: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
+			}
+		}
+	});
+
+})();
+
+
+jQuery(document).ready(function ($)
+{
+	$('.fox-item-captcha-img-reload').each(function ()
+	{
+		$(this).click(function ()
+		{
+			var image = document.getElementById($(this).attr("data-captcha-img"));
+
+			// Generates a unique id with an 8 digits fixed length
+			var uniqueid = Math.floor(Math.random() * Math.pow(10, 8)).toString();
+			while (uniqueid.length < 8)
+			{
+				uniqueid = '0' + uniqueid;
+			}
+
+			// Update the image src
+			image.src = image.src
+				.replace(/uniqueid=[0-9]{8}/, "uniqueid=" + uniqueid)  // non SEF case
+				.replace(/uniqueid\/[0-9]{8}/, "uniqueid/" + uniqueid) // SEF case
+			;
+		}).show();
+	});
+});
+
+
+/* Enable the following function if you want to enable autofocus to the first input of the first form in the page */
+/*
+ jQuery(document).ready(function ($)
+ {
+ $('.fox-form').find('input[type=text]').filter(':visible:first').focus();
+ });
+ */
